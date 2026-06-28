@@ -1,0 +1,11 @@
+# Arquivos de sistema e IDEs
+.DS_Store
+.idea/
+.vscode/
+
+# Logs e arquivos temporários do Docker
+docker/data/
+*.log
+
+# Caso decida criar algum arquivo de configuração sensível depois
+.env
