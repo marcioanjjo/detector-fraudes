@@ -1,7 +1,7 @@
 <?php
 // src/Controllers/AnaliseController.php
 
-class AnaliseController {
+/* class AnaliseController {
     
     // Método que exibe o formulário principal (Página Inicial)
     public function index() {
@@ -39,5 +39,45 @@ class AnaliseController {
     // Método para a página de Termos de Uso (Exigência Google Ads)
     public function termos() {
         include __DIR__ . '/../Views/termos.php';
+    }
+} */
+
+
+// src/Controllers/AnaliseController.php
+
+class AnaliseController {
+    
+    // Método que exibe o formulário principal (Página Inicial)
+    public function index() {
+        // Usar realpath e dirname evita erros de caminhos relativos em servidores Linux/Docker
+        include dirname(__DIR__) . '/Views/formulario.php';
+    }
+
+    // Método que processará a análise do link
+    public function analisar() {
+        $urlSuspeita = $_POST['url_suspeita'] ?? '';
+
+        if (empty($urlSuspeita)) {
+            header('Location: index.php');
+            exit;
+        }
+
+        $resultado = [
+            'url' => $urlSuspeita,
+            'status' => 'alerta',
+            'detalhes' => 'O controlador recebeu seu link, o modelo de análise será ativado em breve.'
+        ];
+
+        include dirname(__DIR__) . '/Views/resultado.php';
+    }
+
+    // Página de Privacidade
+    public function privacidade() {
+        include dirname(__DIR__) . '/Views/privacidade.php';
+    }
+
+    // Página de Termos de Uso
+    public function termos() {
+        include dirname(__DIR__) . '/Views/termos.php';
     }
 }
