@@ -1,4 +1,5 @@
 <?php
+
 // src/Controllers/AnaliseController.php
 
 /* class AnaliseController {
@@ -45,6 +46,8 @@
 
 // src/Controllers/AnaliseController.php
 
+
+
 class AnaliseController {
     
     // Método que exibe o formulário principal (Página Inicial)
@@ -54,6 +57,7 @@ class AnaliseController {
     }
 
     // Método que processará a análise do link
+    // Método que processará a análise do link dentro de src/Controllers/AnaliseController.php
     public function analisar() {
         $urlSuspeita = $_POST['url_suspeita'] ?? '';
 
@@ -62,12 +66,14 @@ class AnaliseController {
             exit;
         }
 
-        $resultado = [
-            'url' => $urlSuspeita,
-            'status' => 'alerta',
-            'detalhes' => 'O controlador recebeu seu link, o modelo de análise será ativado em breve.'
-        ];
+        // Importa o arquivo do Model manualmente (já que não temos Composer)
+        require_once dirname(__DIR__) . '/Models/AnalisadorUrl.php';
 
+        // Instancia o modelo e executa as checagens
+        $analisador = new AnalisadorUrl();
+        $resultado = $analisador->verificar($urlSuspeita);
+
+        // Carrega a tela passando o array $resultado real
         include dirname(__DIR__) . '/Views/resultado.php';
     }
 
