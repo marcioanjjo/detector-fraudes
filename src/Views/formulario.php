@@ -18,7 +18,7 @@
             <div>
                 <label for="url_suspeita" class="block text-sm font-medium text-gray-300 mb-2">URL / Link Suspeito:</label>
                 <input 
-                    type="url" 
+                    type="text" 
                     id="url_suspeita" 
                     name="url_suspeita" 
                     required 

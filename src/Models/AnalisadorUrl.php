@@ -4,7 +4,7 @@
 class AnalisadorUrl {
 
     public function verificar(string $url): array {
-        // 1. Limpa e valida o formato da URL
+        /* // 1. Limpa e valida o formato da URL
         $url = filter_var(trim($url), FILTER_SANITIZE_URL);
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
             return [
@@ -12,9 +12,29 @@ class AnalisadorUrl {
                 'mensagem' => 'O link enviado é inválido ou está mal formatado.',
                 'motivos' => ['A URL enviada não possui um formato estrutural válido.']
             ];
+        } */
+        // Extrai o domínio principal (ex: mesa-de-casa.com)
+        //$dominio = parse_url($url, PHP_URL_HOST);
+
+            // 1. Remove espaços em branco acidentais nas pontas
+        $url = trim($url);
+
+        // 2. Se o utilizador digitou sem http ou https (ex: www.google.com ou google.com.br)
+        if (!str_starts_with(strtolower($url), 'http://') && !str_starts_with(strtolower($url), 'https://')) {
+            $url = 'https://' . $url; // Adiciona o protocolo automaticamente nos bastidores
         }
 
-        // Extrai o domínio principal (ex: mesa-de-casa.com)
+        // 3. Limpa e valida o formato estrutural da URL com a regra rígida do PHP
+        $url = filter_var($url, FILTER_SANITIZE_URL);
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            return [
+                'status' => 'perigo',
+                'mensagem' => 'O link enviado é inválido ou está mal formatado.',
+                'motivos' => ['A URL enviada não possui um formato estrutural válido. Certifique-se de digitar um domínio real.']
+            ];
+        }
+
+        // 4. Extrai o domínio principal para continuar a análise do cURL (o resto do seu código continua igual...)
         $dominio = parse_url($url, PHP_URL_HOST);
 
         // Inicializa as variáveis de risco
