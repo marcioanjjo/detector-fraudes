@@ -9,3 +9,5 @@ services:
       - ../src:/var/www/html
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/html
+    command: >
+      sh -c "a2enmod rewrite && sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf && apache2-foreground"

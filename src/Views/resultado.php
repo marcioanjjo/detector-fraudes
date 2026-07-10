@@ -3,7 +3,7 @@
 
 // Se por algum motivo a variável não existir, redireciona o usuário para a página inicial
 if (!isset($resultado) || empty($resultado)) {
-    header('Location: index.php');
+    header('Location: /home');
     exit;
 }
 ?>
@@ -45,7 +45,7 @@ if (!isset($resultado) || empty($resultado)) {
             </div>
         <?php endif; ?>
 
-        <a href="index.php" class="inline-block w-full text-center bg-gray-700 hover:bg-gray-600 text-white font-bold p-4 rounded-xl transition duration-200 shadow-md">
+        <a href="/home" class="inline-block w-full text-center bg-gray-700 hover:bg-gray-600 text-white font-bold p-4 rounded-xl transition duration-200 shadow-md">
             Analisar outro link
         </a>
     </div>

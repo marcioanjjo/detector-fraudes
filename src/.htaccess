@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# Impede que as pessoas vejam as pastas de código diretamente
+Options -Indexes
+
+# Se o usuário digitar /home ou /index, o sistema vai entender de forma limpa
+RewriteRule ^home$ index.php [L]
+RewriteRule ^index$ index.php [L]
+
+# Regra geral do MVC: Se não for um arquivo real (como imagem ou CSS), manda pro roteador
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
