@@ -13,10 +13,8 @@ class AnalisadorUrl {
                 'motivos' => ['A URL enviada não possui um formato estrutural válido.']
             ];
         } */
-        // Extrai o domínio principal (ex: mesa-de-casa.com)
-        //$dominio = parse_url($url, PHP_URL_HOST);
-
-            // 1. Remove espaços em branco acidentais nas pontas
+        
+        // 1. Remove espaços em branco acidentais nas pontas
         $url = trim($url);
 
         // 2. Se o utilizador digitou sem http ou https (ex: www.google.com ou google.com.br)
@@ -34,7 +32,7 @@ class AnalisadorUrl {
             ];
         }
 
-        // 4. Extrai o domínio principal para continuar a análise do cURL (o resto do seu código continua igual...)
+        // 4. Extrai o domínio principal para continuar a análise do cURL
         $dominio = parse_url($url, PHP_URL_HOST);
 
         // Inicializa as variáveis de risco
@@ -51,7 +49,7 @@ class AnalisadorUrl {
         $resposta = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $urlFinal = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL); // Captura a URL final
-        
+        curl_close($ch); // Fecha a conexão cURL de forma limpa
 
         // PESO 4: Se o site der erro pesado de conexão ou sumiu
         if ($httpCode === 0 || $httpCode >= 400) {
@@ -61,7 +59,17 @@ class AnalisadorUrl {
 
         // PESO 3: Redirecionamento suspeito (Tentou mascarar o domínio real)
         $dominioFinal = parse_url($urlFinal, PHP_URL_HOST);
-        if ($dominioFinal !== $dominio && !str_contains($dominioFinal, $dominio)) {
+        
+        // Remove 'www.' para comparar de forma limpa
+        $domInicialLimpo = str_replace('www.', '', strtolower($dominio));
+        $domFinalLimpo = str_replace('www.', '', strtolower($dominioFinal));
+        
+        // Pega apenas a palavra principal do domínio (ex: 'google' de 'google.com.br' ou 'google.com')
+        $nomeInicial = explode('.', $domInicialLimpo)[0];
+        $nomeFinal = explode('.', $domFinalLimpo)[0];
+
+        // Só pontua erro se a palavra principal mudar (ex: digitou 'google' mas foi pra 'site-fake')
+        if ($nomeInicial !== $nomeFinal) {
             $pontosRisco += 3;
             $motivos[] = "O link original tentou mascarar o destino e redirecionou o utilizador para um site diferente: <strong>{$dominioFinal}</strong>.";
         }
