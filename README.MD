@@ -164,6 +164,6 @@ Este projeto está sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) par
 ## 👨‍💻 Autor
 
 Desenvolvido por **Marcio dos Anjos Silva**  
-**Empresa:** [SQL Tecnologia](https://sqltecnologia.inf.br)
+**Empresa:** [SQL Tecnologia](https://sqltecnologia.inf.br/)
 **LinkedIn:** [linkedin.com/in/marciosilva59543029](https://www.linkedin.com/in/marciosilvasqltecnologia)  
 **GitHub:** [github.com/marcioanjjo](https://github.com/marcioanjjo)
